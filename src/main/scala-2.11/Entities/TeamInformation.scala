@@ -1,6 +1,6 @@
 package Entities
 
-class TeamInformation (data: Array[String]) {
+class TeamInformation (data: Array[String]) extends EntityBase{
 
   val Team: Int = data(0).toInt
   val Wins: Int = data(1).toInt
@@ -27,7 +27,9 @@ class TeamInformation (data: Array[String]) {
   val LostSalaryCapNextSeason: Int = data(22).toInt
 
   def CreateInsertString():String = {
-    s"""($Team, $Wins, $Losses, $Ties, $PlayoffAppearances, $BowlAppearances, $BowlWins,
+    s"""
+       |INSERT INTO Team_Information VALUES
+       |($Team, $Wins, $Losses, $Ties, $PlayoffAppearances, $BowlAppearances, $BowlWins,
        |$PlayoffWins, $PlayoffLosses, '$TurfType', $YearStadiumOpened, $StadiumCapacity,
        |$LuxuryBoxes, $ClubSeats, '$HomeCity', $UpperDeckTickets, $EndZoneTickets, $MezzanineTickets,
        | $SidelineTickets, $ClubSeatTickets, $LuxuryBoxTickets, $LostSalaryCapThisSeason, $LostSalaryCapNextSeason);

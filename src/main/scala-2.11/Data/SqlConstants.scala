@@ -46,5 +46,4 @@ object SqlConstants {
       LostSalaryCapNextSeason INT
   );""".stripMargin
 
-
 }
