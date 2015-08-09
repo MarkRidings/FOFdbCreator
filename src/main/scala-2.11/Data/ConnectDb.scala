@@ -39,7 +39,7 @@ class ConnectDb {
       statement.executeUpdate(entity.CreateInsertString())
     }
     catch {
-      case e: Exception => println("problem updating table " + e.getMessage)
+      case e: Exception => println("problem updating table " + e.getMessage + " " + entity.CreateInsertString())
     }
   }
 
