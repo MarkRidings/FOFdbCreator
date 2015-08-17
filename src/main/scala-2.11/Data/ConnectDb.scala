@@ -1,8 +1,9 @@
 package Data
 
+import java.io.File
 import java.sql.{DriverManager, ResultSet}
 
-import Entities.EntityBase
+import io.FileReader
 
 class ConnectDb {
 
@@ -15,32 +16,83 @@ class ConnectDb {
     conn.close()
   }
 
-  def CreateNewTable(dropString: String, createString: String): Unit = {
+  def CreateNewTable(fileName: String): Boolean = {
 
     try {
       val statement = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)
 
 
-      statement.execute(dropString)
-      statement.execute(createString)
+      statement.execute(s"DROP TABLE IF EXISTS $fileName")
 
-      println("table successfully created")
+      val createStatement = SqlConstants.GetCreateStatement(fileName)
+      if (createStatement != "") {
+        statement.execute(createStatement)
+        println("----------------")
+        println(s"table $fileName successfully created")
+      }
+      else {
+        println(s"table $fileName is not supported")
+        return false
+      }
+
+      true
     }
     catch {
-      case e: Exception => println ("problem with creating table " + e.getMessage)
+      case e: Exception => {
+        println ("problem with creating table " + e.getMessage)
+        false
+      }
     }
   }
 
-  def UpdateTable(entity: EntityBase): Unit = {
+  def UpdateTable(csvFile: File): Unit = {
 
     try {
       val statement = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)
 
-      statement.executeUpdate(entity.CreateInsertString())
+      val file = FileReader.GetFile(csvFile.toString)
+
+      val tableName = csvFile.toString.split('/').last.dropRight(4)
+
+      val insertStatement = new StringBuilder()
+      insertStatement.append(s"INSERT INTO $tableName VALUES")
+
+      var count = 0
+      for (line <- file.drop(1)) {
+        if (count != 0)
+          insertStatement.append(",")
+
+        insertStatement.append(CreateValueLine(line))
+        count += 1
+      }
+
+      insertStatement.append(";")
+      statement.executeUpdate(insertStatement.toString())
+      println(count + " entries entered into table -> " + tableName)
+
     }
     catch {
-      case e: Exception => println("problem updating table " + e.getMessage + " " + entity.CreateInsertString())
+      case e: Exception => {
+        println("problem updating table " + e.getMessage)
+        throw new Exception
+      }
     }
+  }
+
+  def CreateValueLine(line: Array[String]): String = {
+    var first = true
+    val insertStatement = new StringBuilder
+    insertStatement.append("(")
+    for (item <- line) {
+      if (!first)
+        insertStatement.append(",")
+
+      first = false
+      insertStatement.append(s"'${item.map(c => if (c == '\'') ' ' else c)}'")
+    }
+    insertStatement.append(")")
+
+    insertStatement.toString()
   }
 
 }

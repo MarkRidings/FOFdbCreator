@@ -14,4 +14,8 @@ class ActiveFreeAgency(data: Array[String]) extends EntityBase {
        |INSERT INTO Active_Free_Agency VALUES
        |($FreeAgencyRecord, $PlayerId, $Team, $Value, $Years, $StageForSigning);""".stripMargin
   }
+
+  override def toString: String = {
+    s"""($FreeAgencyRecord, $PlayerId, $Team, $Value, $Years, $StageForSigning)"""
+  }
 }

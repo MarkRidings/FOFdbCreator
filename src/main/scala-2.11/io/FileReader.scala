@@ -1,3 +1,7 @@
+package io
+
+import java.io.File
+
 import scala.collection.mutable.ListBuffer
 import scala.io.Source._
 
@@ -17,4 +21,12 @@ object FileReader {
 
     lines.toList
   }
+
+  def GetAllFiles(dir: String): Array[File] = {
+
+    new java.io.File("/home/mark/FOF/APFL2013/").listFiles.filter(_.getName.endsWith(".csv"))
+
+  }
+
+
 }

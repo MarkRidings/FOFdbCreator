@@ -25,15 +25,16 @@ class ActiveQuarterbacks(data: Array[String]) extends EntityBase {
   var Five_WR_Spread: Boolean = ConversionHelpers.getBoolean(data(18))
   var Goalline_Three_TE: Boolean = ConversionHelpers.getBoolean(data(19))
 
-  override def CreateInsertString(): String = {
+  override def toString: String = {
     s"""
-       |INSERT INTO Active_Quarterbacks VALUES
        |(
        |$PlayerId, $NumberFormations, $I_Normal, $I_TE_Pairs, $I_WR_Slot,
        |$Pro_Normal, $Pro_TE_Pairs, $Pro_WR_Slot, $Weak_Normal, $Weak_TE_Pairs, $Weak_Three_WR,
        |$Strong_Normal, $Strong_TE_Pairs, $Strong_Three_WR, $SingleBack_Normal, $SingleBack_TE_Pair,
        |$SingleBack_Trips_WR, $SingleBack_Four_WR, $Five_WR_Spread, $Goalline_Three_TE
-       |);
+       |)
      """.stripMargin
   }
+
+  override def CreateInsertString(): String = ???
 }

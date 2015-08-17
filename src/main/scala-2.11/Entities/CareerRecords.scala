@@ -16,4 +16,8 @@ class CareerRecords (data: Array[String]) extends EntityBase {
        |('$Category', $Team, $Place, $PlayerId, $Record, $LastYear);
      """.stripMargin
   }
+
+  override def toString: String = {
+    s"""('$Category', $Team, $Place, $PlayerId, $Record, $LastYear)"""
+  }
 }

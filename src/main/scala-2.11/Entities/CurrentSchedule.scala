@@ -13,4 +13,8 @@ class CurrentSchedule (data: Array[String]) extends EntityBase {
        |('$Week', $VisitorTeam, $HomeTeam);
      """.stripMargin
   }
+
+  override def toString: String = {
+    s"""('$Week', $VisitorTeam, $HomeTeam)"""
+  }
 }

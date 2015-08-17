@@ -27,12 +27,15 @@ class TeamInformation (data: Array[String]) extends EntityBase{
   val LostSalaryCapNextSeason: Int = data(22).toInt
 
   def CreateInsertString():String = {
+    ""
+  }
+
+  override def toString:String = {
     s"""
-       |INSERT INTO Team_Information VALUES
        |($Team, $Wins, $Losses, $Ties, $PlayoffAppearances, $BowlAppearances, $BowlWins,
        |$PlayoffWins, $PlayoffLosses, '$TurfType', $YearStadiumOpened, $StadiumCapacity,
        |$LuxuryBoxes, $ClubSeats, '$HomeCity', $UpperDeckTickets, $EndZoneTickets, $MezzanineTickets,
-       | $SidelineTickets, $ClubSeatTickets, $LuxuryBoxTickets, $LostSalaryCapThisSeason, $LostSalaryCapNextSeason);
+       | $SidelineTickets, $ClubSeatTickets, $LuxuryBoxTickets, $LostSalaryCapThisSeason, $LostSalaryCapNextSeason)
      """.stripMargin
   }
 }

@@ -123,11 +123,12 @@ class DraftPersonal (data: Array[String]) extends EntityBase {
   val HighLongSnapping: Int = data(116).toInt
   val HighKickHolding: Int = data(117).toInt
   
-
   override def CreateInsertString(): String = {
+    ""
+  }
+  override def toString: String = {
 
     s"""
-       |INSERT INTO Draft_Personal VALUES
        |(
        |  $PlayerId,
        |  $Interviewed,
@@ -247,7 +248,7 @@ class DraftPersonal (data: Array[String]) extends EntityBase {
        |  $HighSpecialTeams,
        |  $HighLongSnapping,
        |  $HighKickHolding
-       |);
+       |)
      """.stripMargin
   }
 }
